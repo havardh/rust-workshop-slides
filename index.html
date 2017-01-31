@@ -287,6 +287,33 @@ impl Mult< f64> for Vec3 {
 
 		</section>
 
+		<section>
+			Workshop
+		</section>
+
+		<section>
+			Workshop
+				<pre><code data-trim data-noescape>
+git clone https://github.com/Itera/rust-raytracer-workshop
+				</code></pre>
+				<pre class="fragment"><code data-trim data-noescape>
+cd rust-raytracer-workshop
+				</code></pre>
+				<pre class="fragment"><code data-trim data-noescape>
+cargo build           // builds the project
+cargo test            // runs all tests
+cargo run --bin image // runs the image binary
+				</code></pre>
+				<pre class="fragment"><code data-trim data-noescape>
+thread 'main' panicked at 'Step 2a) Initialize a camera with width = 600', src/bin/image.rs:62
+note: Run with `RUST_BACKTRACE=1` for a backtrace.
+				</code></pre>
+				<pre class="fragment"><code data-trim data-noescape>
+cat readme.md         // rtfm
+atom src/bin/image.rs // fixit!
+				</code></pre>
+		</section>
+
 
 		</div>
 		</div>
