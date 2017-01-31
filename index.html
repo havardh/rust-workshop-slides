@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<style>
+
+#rust-logo {
+	border: 0 !important;
+	position: absolute !important;
+	right: 0px !important;
+	bottom: 0px !important;
+	background: none;
+	box-shadow: none;
+}
+#itera-logo {
+	border: 0 !important;
+	position: absolute !important;
+	left: 0px !important;
+	bottom: 0px !important;
+	background: none;
+	box-shadow: none;
+}
+
+.reveal .footer {
+  position: absolute;
+  bottom: 100px;
+  left: 0px;
+}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="image/pixar.jpg">
+
+						<img id="itera-logo"
+						  data-src="image/itera-logo.svg"
+						  />
+					   Ray tracing in Rust
+
+					<img id="rust-logo"
+					  data-src="image/rust-logo.png"
+					  />
+				</section>
+
+				<section>
+					Presentasjon
+				<section data-markdown>
+					<script type="text/template">
+					    - Ray tracing
+
+					    - Rust
+
+					    - Workshop
+					</script>
+				</section>
+				</section>
+
+				<section data-markdown>
+					Ray tracing
+				</section>
+
+				<section data-transition="slide-in" data-background-image="image/render-1.bmp">
+				</section>
+				<section data-transition="slide-in" data-background-image="image/render-2.bmp">
+				</section>
+				<section data-transition="slide-in" data-background-image="image/render-3.bmp">
+				</section>
+
+				<section>
+					Ray tracing <br>
+					image = trace(camera, scene)
+				<section data-markdown>
+					<script type="text/template">
+					    - Create Camera
+
+					    - Intersect
+
+					    - Colorize
+					</script>
+				</section>
+				</section>
+
+				<section data-markdown>
+					Rust
+				</section>
+
+				<section>
+					Rust
+				<section data-markdown>
+					<script type="text/template">
+					    - Hello, world!
+
+					    - Primitives, Pointers and References
+
+					    - Syntax
+
+					    - Datatypes
+					</script>
+				</section>
+				</section>
+
+				<section>
+					Hello world
+					<pre><code data-trim data-noescape>
+fn main() {
+  println!("Hello, world!");
+}
+					</code></pre>
+				</section>
+
+				<section>
+					Primitives
+					<div class="fragment">
+						Static types are inferred
+				    <pre><code data-trim data-noescape>
+							let a: u32 = 1; // a: u32
+							let b = 2.0; // b: f64
+						</code></pre>
+					</div>
+					<div class="fragment">
+						Immutable
+						<pre><code data-trim data-noescape>
+							b = 1.0; // compile error
+						</code></pre>
+						</div>
+						<div class="fragment">
+							`mut` for mutability
+					<pre><code data-trim data-noescape>
+						let mut c = 3.0;
+						c = 4.0;
+			    </code></pre>
+				</div>
+			</section>
+
+
+
+			<section>
+				Pointers and references
+				<pre><code data-trim data-noescape>
+				let num = 100; // Stack allocated value
+
+				let num_ptr = Box::new(100); // Pointer to heap
+
+				let num_ref = &100;
+			</code></pre>
+			</section>
+
+			<section>
+				Functions
+				<pre><code data-trim data-noescape>
+					fn add(a: u8, b: u8) -> u8 {
+					    a + b
+					}
+				</code></pre>
+				Usage
+				<pre><code data-trim data-noescape>
+					let sum = add(10, 100);
+				</code></pre>
+			</section>
+
+			<section>
+				Control Flow
+				<div>
+				Loops
+				<pre><code data-trim data-noescape>
+				for i in 0..10 {
+			    println!("{}", i);
+				}
+			</code></pre>
+		</div>
+		<div class="fragment">
+			Control structures as expressions
+			<pre><code data-trim data-noescape>
+				let a = if i > 0 {
+			    true
+				} else {
+			    false
+				};
+			</code></pre>
+		</div>
+
+			</section>
+
+			<section>
+				Structures
+			<pre><code data-trim data-noescape>
+				struct Vec3 { x: f64, y: f64, z: f64 }<div class="fragment">
+				impl Vec3 {<div class="fragment">
+				  pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
+				    Vec3 { x: x, y: y, z: z }
+				  }</div><div class="fragment">
+				  pub fn length(&self) -> f64 {
+				    let &Vec3 {x, y, z} = self;
+				    (x * x + y * y + z * z).sqrt()
+				  }</div>
+				}</div>
+				</code></pre>
+			</section>
+
+			<section>
+				Structures
+				<pre><code data-trim data-noescape>
+					struct Vec3 { x: f64, y: f64, z: f64 }
+
+					impl Vec3 {
+					  pub fn new(...) -> Vec3 { ... }
+					  pub fn length(...) -> f64 { ... }
+					}
+				</code></pre>
+
+				<pre class="fragment"><code data-trim data-noescape>
+				fn main() {
+			    let vec = Vec3::new(1.0, 1.0, 1.0);
+
+			    println!("Length is: {}", vec.length());
+				}
+			</code></pre>
+			</section>
+
+			<section>
+				Traits
+
+				<pre><code data-trim data-noescape>
+					a * b
+					</code></pre>
+				<pre><code data-trim data-noescape>
+trait Mult < RHS = Self> {
+  type Output;
+  pub fn mul(self, rhs: RHS) -> Self::Output;
+}
+			</code></pre>
+			<pre class="fragment"><code data-trim data-noescape>
+impl Mult< f64> for Vec3 {
+  type Output = Vec3;
+
+  fn mul(self, val: f64) -> Vec3 {
+    Vec3::new(self.x * val,
+  	      self.y * val,
+  	      self.z * val)
+  }
+}
+		</code></pre>
+		<pre class="fragment"><code data-trim data-noescape>
+			let v1 = Vec3::new(1.0, 2.0, 3.0);
+			let val = 2.0;
+			let v2 = v1 * val;
+		</code></pre>
+			</section>
+
+		<section>
+			Enum - algebraic datatypes
+
+			<pre><code data-trim data-noescape>
+	enum Option<T> {
+	  Some(T),
+	  None
+	}</code></pre>
+
+	<pre><code data-trim data-noescape>
+	let emails: Option< u32> = have_i_got_mail();
+
+	match emails {
+	  Some(n) if n == 1 => println!("You have one email"),
+	  Some(n) => println!("You have {} emails", n),
+	  None => println!("No emails!")
+	}
+	</code></pre>
+
+		</section>
+
+
+		</div>
+		</div>
+
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
