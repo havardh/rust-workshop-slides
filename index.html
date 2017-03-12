@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Ray tracing in Rust</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -13,21 +13,43 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 		<style>
 
-#rust-logo {
+img.rust-logo {
 	border: 0 !important;
 	position: absolute !important;
 	right: 0px !important;
 	bottom: 0px !important;
+	background: none !important;
+	box-shadow: none !important;
+}
+
+div.ray-trace-slide {
+	background: #333;
+  background-color: #333;
+}
+
+img.ray-trace {
+	border: 0 !important;
 	background: none;
 	box-shadow: none;
 }
-#itera-logo {
+
+img.rust-logo-2 {
+	border: 0 !important;
+	background: none  !important;
+	box-shadow: none  !important;
+}
+
+img.itera-logo {
 	border: 0 !important;
 	position: absolute !important;
 	left: 0px !important;
 	bottom: 0px !important;
-	background: none;
-	box-shadow: none;
+	background: none !important;
+	box-shadow: none !important;
+}
+
+img.stackoverflow {
+	width: 80%;
 }
 
 .reveal .footer {
@@ -49,20 +71,43 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-background-image="image/pixar.jpg">
+				<section>
 
-						<img id="itera-logo"
-						  data-src="image/itera-logo.svg"
-						  />
-					   Ray tracing in Rust
+					<img class="itera-logo" data-src="image/itera-logo.svg" />
+				   Ray tracing in Rust
 
-					<img id="rust-logo"
-					  data-src="image/rust-logo.png"
-					  />
+					<img class="rust-logo" data-src="image/rust-logo.png" />
 				</section>
 
 				<section>
-					Presentasjon
+				<section class="titleslide slide level1">
+					Why ray tracing?
+				</section>
+
+				<section class="slide level2" data-background-image="image/pixar.jpg">
+				</section>
+
+				<section class="ray-trace-slide slide level2" >
+					<img class="ray-trace" data-src="image/cornellbox.jpg" />
+				</section>
+
+				<section class="ray-trace-slide slide level3">
+					<img class="ray-trace" data-src="image/ray-tracer.png" />
+				</section>
+			</section>
+
+				<section>
+					<section class="titleslide slide level1">
+						<img class="rust-logo-2" data-src="image/rust-logo.png" />
+					</section>
+
+					<section class="slide level2">
+						<a href="http://stackoverflow.com/insights/survey/2016">
+							<img class="stackoverflow" data-src="image/stackoverflow-rust.png" />
+						</a>
+				</section>
+			</section>
+
 				<section data-markdown>
 					<script type="text/template">
 					    - Ray tracing
@@ -72,8 +117,15 @@
 					    - Workshop
 					</script>
 				</section>
+
+				<section>
+				<section data-markdown>
+					Ray tracing
 				</section>
 
+				<section class="ray-trace-slide">
+					<img class="ray-trace" data-src="image/ray-tracer.png" />
+				</section>
 				<section data-markdown>
 					Ray tracing
 				</section>
@@ -86,36 +138,23 @@
 				</section>
 
 				<section>
-					Ray tracing <br>
-					image = trace(camera, scene)
-				<section data-markdown>
-					<script type="text/template">
-					    - Create Camera
+					Ray tracing Algorithm<br>
 
-					    - Intersect
+					<pre><code data-trim data-noescape>
 
-					    - Colorize
-					</script>
+fn trace(camera, scene) -> image {
+  for pixel in image {
+    ray = create_ray(pixel, camera)
+    intersection = intersection(ray, scene)
+    set pixel color = colorize(intersection)
+  }
+}
+					</code></pre>
 				</section>
-				</section>
-
-				<section data-markdown>
-					Rust
-				</section>
-
+			</section>
+			<section>
 				<section>
-					Rust
-				<section data-markdown>
-					<script type="text/template">
-					    - Hello, world!
-
-					    - Primitives, Pointers and References
-
-					    - Syntax
-
-					    - Datatypes
-					</script>
-				</section>
+					<img class="rust-logo-2" data-src="image/rust-logo.png" />
 				</section>
 
 				<section>
@@ -155,26 +194,48 @@ fn main() {
 
 			<section>
 				Pointers and references
-				<pre><code data-trim data-noescape>
-				let num = 100; // Stack allocated value
-
-				let num_ptr = Box::new(100); // Pointer to heap
-
-				let num_ref = &100;
+				<pre><code data-trim data-noescape><div class="fragment">
+        let num = 100; // Stack allocated value</div><div class="fragment">
+        let num_ptr = Box::new(100); // Pointer to heap</div><div class="fragment">
+        let num_ref = &100; // Reference to value
+			</div>
 			</code></pre>
+
 			</section>
 
 			<section>
 				Functions
 				<pre><code data-trim data-noescape>
 					fn add(a: u8, b: u8) -> u8 {
-					    a + b
+					  a + b
 					}
 				</code></pre>
-				Usage
+
+			<div class="fragment">
 				<pre><code data-trim data-noescape>
-					let sum = add(10, 100);
+					fn add(a: u8, b: u8) -> u8 {
+					  return a + b;
+					}
 				</code></pre>
+			</div>
+			<div class="fragment">
+			Usage
+			<pre><code data-trim data-noescape>
+				let sum = add(10, 100);
+			</code></pre>
+		</div>
+			</section>
+
+			<section>
+				Pass by reference / Pass by value
+				<pre><code data-trim data-noescape><div>
+	foo(num); // Pass by value (transfer ownership)
+
+	foo(& num); // Pass by reference
+
+	foo(&mut num); // Pass by mutable reference
+				</div>
+			</code></pre>
 			</section>
 
 			<section>
@@ -183,7 +244,7 @@ fn main() {
 				Loops
 				<pre><code data-trim data-noescape>
 				for i in 0..10 {
-			    println!("{}", i);
+				  println!("{}", i);
 				}
 			</code></pre>
 		</div>
@@ -191,9 +252,19 @@ fn main() {
 			Control structures as expressions
 			<pre><code data-trim data-noescape>
 				let a = if i > 0 {
-			    true
+				  true
 				} else {
-			    false
+				  false
+				};
+			</code></pre>
+		</div>
+		<div class="fragment">
+			Pattern matching
+			<pre><code data-trim data-noescape>
+				let a = match i {
+				  0 => true,
+				  1 => false,
+				  _ => true
 				};
 			</code></pre>
 		</div>
@@ -209,7 +280,9 @@ fn main() {
 				    Vec3 { x: x, y: y, z: z }
 				  }</div><div class="fragment">
 				  pub fn length(&self) -> f64 {
-				    let &Vec3 {x, y, z} = self;
+				    let x = self.x;
+				    let y = self.y;
+				    let z = self.z;
 				    (x * x + y * y + z * z).sqrt()
 				  }</div>
 				}</div>
@@ -222,17 +295,15 @@ fn main() {
 					struct Vec3 { x: f64, y: f64, z: f64 }
 
 					impl Vec3 {
-					  pub fn new(...) -> Vec3 { ... }
-					  pub fn length(...) -> f64 { ... }
+					  pub fn new(x: f64, y: f64, z: f64) -> Vec3 { ... }
+					  pub fn length(&self) -> f64 { ... }
 					}
 				</code></pre>
 
 				<pre class="fragment"><code data-trim data-noescape>
-				fn main() {
-			    let vec = Vec3::new(1.0, 1.0, 1.0);
-
-			    println!("Length is: {}", vec.length());
-				}
+        fn main() {
+          let vec = Vec3::new(1.0, 1.0, 1.0);<div class="fragment">
+          println!("Length is: {}", vec.length());</div>}
 			</code></pre>
 			</section>
 
@@ -240,29 +311,40 @@ fn main() {
 				Traits
 
 				<pre><code data-trim data-noescape>
-					a * b
-					</code></pre>
-				<pre><code data-trim data-noescape>
-trait Mult < RHS = Self> {
-  type Output;
-  pub fn mul(self, rhs: RHS) -> Self::Output;
+trait HasLength {
+  fn length(&self) -> f64;
 }
-			</code></pre>
-			<pre class="fragment"><code data-trim data-noescape>
-impl Mult< f64> for Vec3 {
-  type Output = Vec3;
-
-  fn mul(self, val: f64) -> Vec3 {
-    Vec3::new(self.x * val,
-  	      self.y * val,
-  	      self.z * val)
+					</code></pre>
+				<pre class="fragment"><code data-trim data-noescape>
+impl HasLength for Vec3 {
+  fn length(&self) -> f64 {
+    let x = self.x;
+    let y = self.y;
+    let z = self.z;
+    (x * x + y * y + z * z).sqrt()
   }
 }
-		</code></pre>
+			</code></pre>
 		<pre class="fragment"><code data-trim data-noescape>
-			let v1 = Vec3::new(1.0, 2.0, 3.0);
-			let val = 2.0;
-			let v2 = v1 * val;
+fn print_length(shape: HasLength) {
+  println!("Has Length: {}", shape.length());
+}
+		</code></pre>
+	<pre class="fragment"><code data-trim data-noescape>
+let list = LinkedList&lt;HasLength>::new();
+	</code></pre>
+			</section>
+
+			<section>
+				Traits
+
+				<pre><code data-trim data-noescape>
+trait HasLength {
+  fn length(&self) -> f64 {
+    return 0;
+  }
+}
+					</code></pre>
 		</code></pre>
 			</section>
 
@@ -270,25 +352,25 @@ impl Mult< f64> for Vec3 {
 			Enum - algebraic datatypes
 
 			<pre><code data-trim data-noescape>
-	enum Option<T> {
+	enum Option&lt;T> {
 	  Some(T),
 	  None
 	}</code></pre>
 
-	<pre><code data-trim data-noescape>
-	let emails: Option< u32> = have_i_got_mail();
+	<pre class="fragment"><code data-trim data-noescape>
+	let emails: Option&lt;u32> = have_i_got_mail();
 
 	match emails {
-	  Some(n) if n == 1 => println!("You have one email"),
 	  Some(n) => println!("You have {} emails", n),
 	  None => println!("No emails!")
 	}
 	</code></pre>
 
 		</section>
+	</section>
 
 		<section>
-			Workshop
+			<a href="https://github.com/Itera/rust-raytracer-workshop">Workshop</a>
 		</section>
 
 		<section>
