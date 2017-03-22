@@ -7,10 +7,10 @@
 		<title>Ray tracing in Rust</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/itera.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
 		<style>
 
 img.rust-logo {
@@ -57,6 +57,50 @@ img.stackoverflow {
   bottom: 100px;
   left: 0px;
 }
+
+.reveal .title-overlay {
+	top: -40%;
+	left: -30%;
+	position: fixed;
+	height: 200%;
+	width: 63%;
+	background-color: white;
+}
+
+.reveal .title-overlay img {
+	position: fixed;
+	left: -19%;
+	top: 27%;
+	box-shadow: 0px 0px;
+}
+
+body:after {
+	position: fixed;
+  background-image: url(image/itera-logo.svg);
+  background-size: 173px 62px;
+  display: inline-block;
+  width: 173px;
+  height: 62px;
+  content:"";
+	bottom: 3.5em;
+	left: 3.5em;
+}
+
+span.itera-logo {
+	position: absolute;
+	background-image: url(image/itera-logo.svg);
+	background-size: 173px 62px;
+	width: 173px;
+	height: 62px;
+	content:"";
+	bottom: 3.5em;
+	left: 3.5em;
+}
+
+.reveal .right-center {
+	padding-left: 33%;
+}
+
 		</style>
 
 		<!-- Printing and PDF exports -->
@@ -71,15 +115,29 @@ img.stackoverflow {
 	<body>
 		<div class="reveal">
 			<div class="slides">
+				<section data-transition="none">
+					<div class="title-overlay">
+					 <img src="image/itera-gray.jpg">
+					</div>
+
+				   <span class="right-center">Åpen fagkveld</span>
+				</section>
 				<section>
-
-					<img class="itera-logo" data-src="image/itera-logo.svg" />
-				   Ray tracing in Rust
-
-					<img class="rust-logo" data-src="image/rust-logo.png" />
+					<section>Første åpne fagkveld</section>
+					<section>1. gang i kvartalet</section>
+					<section>Brukerundersøkelse</section>
+				</section>
+				<section data-transition="none">
+			   Rust Oslo Meetup
+				</section>
+				<section class="titleslide slide level1">
+					Ray tracing in Rust
 				</section>
 
 				<section>
+				<section class="titleslide slide level1">
+					What is ray tracing?
+				</section>
 				<section class="titleslide slide level1">
 					Why ray tracing?
 				</section>
@@ -106,6 +164,11 @@ img.stackoverflow {
 							<img class="stackoverflow" data-src="image/stackoverflow-rust.png" />
 						</a>
 				</section>
+				<section class="slide level2">
+					<a href="http://stackoverflow.com/insights/survey/2017">
+						<img class="stackoverflow" data-src="image/stackoverflow-2017.png" />
+					</a>
+			</section>
 			</section>
 
 				<section data-markdown>
@@ -140,7 +203,7 @@ img.stackoverflow {
 				<section>
 					Ray tracing Algorithm<br>
 
-					<pre><code data-trim data-noescape>
+					<pre><code class="rust" data-trim data-noescape>
 
 fn trace(camera, scene) -> image {
   for pixel in image {
@@ -159,7 +222,7 @@ fn trace(camera, scene) -> image {
 
 				<section>
 					Hello world
-					<pre><code data-trim data-noescape>
+					<pre><code class="rust" data-trim data-noescape>
 fn main() {
   println!("Hello, world!");
 }
@@ -170,20 +233,20 @@ fn main() {
 					Primitives
 					<div class="fragment">
 						Static types are inferred
-				    <pre><code data-trim data-noescape>
+				    <pre><code class="rust" data-trim data-noescape>
 							let a: u32 = 1; // a: u32
 							let b = 2.0; // b: f64
 						</code></pre>
 					</div>
 					<div class="fragment">
 						Immutable
-						<pre><code data-trim data-noescape>
+						<pre><code class="rust" data-trim data-noescape>
 							b = 1.0; // compile error
 						</code></pre>
 						</div>
 						<div class="fragment">
 							`mut` for mutability
-					<pre><code data-trim data-noescape>
+					<pre><code class="rust" data-trim data-noescape>
 						let mut c = 3.0;
 						c = 4.0;
 			    </code></pre>
@@ -194,7 +257,7 @@ fn main() {
 
 			<section>
 				Pointers and references
-				<pre><code data-trim data-noescape><div class="fragment">
+				<pre><code class="rust" data-trim data-noescape><div class="fragment">
         let num = 100; // Stack allocated value</div><div class="fragment">
         let num_ptr = Box::new(100); // Pointer to heap</div><div class="fragment">
         let num_ref = &100; // Reference to value
@@ -205,14 +268,14 @@ fn main() {
 
 			<section>
 				Functions
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 					fn add(a: u8, b: u8) -> u8 {
 					  a + b
 					}
 				</code></pre>
 
 			<div class="fragment">
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 					fn add(a: u8, b: u8) -> u8 {
 					  return a + b;
 					}
@@ -220,7 +283,7 @@ fn main() {
 			</div>
 			<div class="fragment">
 			Usage
-			<pre><code data-trim data-noescape>
+			<pre><code class="rust" data-trim data-noescape>
 				let sum = add(10, 100);
 			</code></pre>
 		</div>
@@ -228,7 +291,7 @@ fn main() {
 
 			<section>
 				Pass by reference / Pass by value
-				<pre><code data-trim data-noescape><div>
+				<pre><code class="rust" data-trim data-noescape><div>
 	foo(num); // Pass by value (transfer ownership)
 
 	foo(& num); // Pass by reference
@@ -242,7 +305,7 @@ fn main() {
 				Control Flow
 				<div>
 				Loops
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 				for i in 0..10 {
 				  println!("{}", i);
 				}
@@ -250,17 +313,13 @@ fn main() {
 		</div>
 		<div class="fragment">
 			Control structures as expressions
-			<pre><code data-trim data-noescape>
-				let a = if i > 0 {
-				  true
-				} else {
-				  false
-				};
+			<pre><code class="rust" data-trim data-noescape>
+				let a = if i > 0 { true } else { false };
 			</code></pre>
 		</div>
 		<div class="fragment">
 			Pattern matching
-			<pre><code data-trim data-noescape>
+			<pre><code class="rust" data-trim data-noescape>
 				let a = match i {
 				  0 => true,
 				  1 => false,
@@ -273,7 +332,7 @@ fn main() {
 
 			<section>
 				Structures
-			<pre><code data-trim data-noescape>
+			<pre><code class="rust" data-trim data-noescape>
 				struct Vec3 { x: f64, y: f64, z: f64 }<div class="fragment">
 				impl Vec3 {<div class="fragment">
 				  pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
@@ -291,7 +350,7 @@ fn main() {
 
 			<section>
 				Structures
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 					struct Vec3 { x: f64, y: f64, z: f64 }
 
 					impl Vec3 {
@@ -300,7 +359,7 @@ fn main() {
 					}
 				</code></pre>
 
-				<pre class="fragment"><code data-trim data-noescape>
+				<pre class="fragment"><code class="rust" data-trim data-noescape>
         fn main() {
           let vec = Vec3::new(1.0, 1.0, 1.0);<div class="fragment">
           println!("Length is: {}", vec.length());</div>}
@@ -310,12 +369,12 @@ fn main() {
 			<section>
 				Traits
 
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 trait HasLength {
   fn length(&self) -> f64;
 }
 					</code></pre>
-				<pre class="fragment"><code data-trim data-noescape>
+				<pre class="fragment"><code class="rust" data-trim data-noescape>
 impl HasLength for Vec3 {
   fn length(&self) -> f64 {
     let x = self.x;
@@ -325,12 +384,12 @@ impl HasLength for Vec3 {
   }
 }
 			</code></pre>
-		<pre class="fragment"><code data-trim data-noescape>
+		<pre class="fragment"><code class="rust" data-trim data-noescape>
 fn print_length(shape: HasLength) {
   println!("Has Length: {}", shape.length());
 }
 		</code></pre>
-	<pre class="fragment"><code data-trim data-noescape>
+	<pre class="fragment"><code class="rust" data-trim data-noescape>
 let list = LinkedList&lt;HasLength>::new();
 	</code></pre>
 			</section>
@@ -338,7 +397,7 @@ let list = LinkedList&lt;HasLength>::new();
 			<section>
 				Traits
 
-				<pre><code data-trim data-noescape>
+				<pre><code class="rust" data-trim data-noescape>
 trait HasLength {
   fn length(&self) -> f64 {
     return 0;
@@ -351,13 +410,13 @@ trait HasLength {
 		<section>
 			Enum - algebraic datatypes
 
-			<pre><code data-trim data-noescape>
+			<pre><code class="rust" data-trim data-noescape>
 	enum Option&lt;T> {
 	  Some(T),
 	  None
 	}</code></pre>
 
-	<pre class="fragment"><code data-trim data-noescape>
+	<pre class="fragment"><code class="rust" data-trim data-noescape>
 	let emails: Option&lt;u32> = have_i_got_mail();
 
 	match emails {
@@ -367,33 +426,29 @@ trait HasLength {
 	</code></pre>
 
 		</section>
+		<section>
+			Tuples
+
+			<pre><code class="rust" data-trim data-noescape>
+	let tuple: (u8, f64) = (1, 2.0);
+  </code></pre>
+	<pre class="fragment"><code class="rust" data-trim data-noescape>
+fn foo() -> tuple {
+  return (1, 2.0);
+}
+</code></pre>
+<pre class="fragment"><code class="rust" data-trim data-noescape>
+let (i, f) = foo();
+</code></pre>
+
+		</section>
 	</section>
 
 		<section>
 			<a href="https://github.com/Itera/rust-raytracer-workshop">Workshop</a>
 		</section>
 
-		<section>
-			Workshop
-				<pre><code data-trim data-noescape>
-git clone https://github.com/Itera/rust-raytracer-workshop
-				</code></pre>
-				<pre class="fragment"><code data-trim data-noescape>
-cd rust-raytracer-workshop
-				</code></pre>
-				<pre class="fragment"><code data-trim data-noescape>
-cargo build           // builds the project
-cargo test            // runs all tests
-cargo run --bin image // runs the image binary
-				</code></pre>
-				<pre class="fragment"><code data-trim data-noescape>
-thread 'main' panicked at 'Step 2a) Initialize a camera with width = 600', src/bin/image.rs:62
-note: Run with `RUST_BACKTRACE=1` for a backtrace.
-				</code></pre>
-				<pre class="fragment"><code data-trim data-noescape>
-cat readme.md         // rtfm
-atom src/bin/image.rs // fixit!
-				</code></pre>
+		<section class="slide level2" data-background-image="image/background.jpg">
 		</section>
 
 
@@ -414,7 +469,10 @@ atom src/bin/image.rs // fixit!
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+						hljs.configure({language: "rust"});
+						hljs.initHighlightingOnLoad();
+					} }
 				]
 			});
 		</script>
